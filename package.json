@@ -1,6 +1,6 @@
 {
   "name": "@saji/eslint-config",
-  "version": "1.0.0-pre",
+  "version": "1.0.0",
   "author": "Marek ‘saji’ Augustynowicz <marek.aug@gmail.com>",
   "license": "ISC",
   "main": "index.js",
