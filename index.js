@@ -1,9 +1,21 @@
+const style = require('eslint-config-airbnb-base/rules/style');
+const variables = require('eslint-config-airbnb-base/rules/variables');
+
+const mergeRules = require('./utils/mergeRules');
+
 const {
     rules: {
         'max-len': maxLen,
         indent,
+        'operator-linebreak': operatorLinebreak,
+        'no-restricted-syntax': noRestrictedSyntax,
     },
-} = require('eslint-config-airbnb-base/rules/style');
+} = style;
+const {
+    rules: {
+        'no-unused-vars': noUnusedVars,
+    },
+} = variables;
 
 module.exports = {
     extends: 'eslint-config-airbnb-base',
@@ -12,10 +24,38 @@ module.exports = {
         '@saji/brace-rules',
     ],
     parserOptions: { evmaVersion: 2020 },
+    settings: {
+        'import/resolver': {
+            node: {
+                extensions: [
+                    '.json',
+                    '.webmanifest',
+                    '.js',
+                    '.mjs',
+                    '.cjs',
+                ],
+            },
+        },
+        'import/extensions': [
+            '.js',
+            '.mjs',
+            '.cjs',
+            '.jsx',
+            '.ts',
+            '.tsx',
+        ],
+    },
     rules: {
-        'max-len': ['error', 72, maxLen[2]],
-        indent: ['error', 4, indent[2]],
-        // FIXME stroustrup for inline functions
+        'operator-linebreak': [
+            'error',
+            'before',
+            { overrides: { '=': 'after' } },
+        ],
+        'no-unused-vars': mergeRules(noUnusedVars, {
+            varsIgnorePattern: '_',
+        }),
+        'max-len': mergeRules(maxLen, 'warn', 72),
+        indent: mergeRules(indent, 4),
         'brace-style': ['off'],
         '@saji/brace-rules/brace-on-same-line': ['error', 'allman', {
             ArrowFunctionExpression: 'always',
@@ -23,7 +63,23 @@ module.exports = {
             MethodDeclaration: 'never',
         }],
         'space-before-function-paren': ['error', 'always'],
-        'comma-dangle': ['error', 'only-multiline'],
+        'comma-dangle': ['error', 'always-multiline'],
+        'prefer-destructuring': [
+            'error',
+            {
+                VariableDeclarator: {
+                    array: false,
+                    object: true,
+                },
+                AssignmentExpression: {
+                    array: false,
+                    object: false,
+                },
+            },
+            { enforceForRenamedProperties: false },
+        ],
+        // for…of loops are fine in node
+        'no-restricted-syntax': noRestrictedSyntax.filter((item) => item.selector !== 'ForOfStatement'),
     },
     overrides: [
         {
@@ -33,6 +89,7 @@ module.exports = {
             },
             rules: {
                 'import/extensions': ['error', 'always'],
+                'no-restricted-syntax': noRestrictedSyntax,
             },
         },
         {
