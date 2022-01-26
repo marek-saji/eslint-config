@@ -24,6 +24,7 @@ module.exports = {
         '@saji/brace-rules',
     ],
     parserOptions: { evmaVersion: 2020 },
+    reportUnusedDisableDirectives: true,
     settings: {
         'import/resolver': {
             node: {
