@@ -84,7 +84,7 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['**/static/*.mjs'],
+            files: ['**/static/**/*.mjs'],
             env: {
                 'shared-node-browser': true,
             },
@@ -95,9 +95,9 @@ module.exports = {
         },
         {
             files: [
-                '**/serviceWorker.js',
-                '**/serviceworker.js',
-                '**/service-worker.js',
+                '**/serviceWorker.{js,mjs}',
+                '**/serviceworker.{js,mjs}',
+                '**/service-worker.{js,mjs}',
             ],
             env: {
                 serviceworker: true,
