@@ -47,11 +47,7 @@ module.exports = {
         ],
     },
     rules: {
-        'operator-linebreak': [
-            'error',
-            'before',
-            { overrides: { '=': 'after' } },
-        ],
+        'operator-linebreak': operatorLinebreak,
         'no-unused-vars': mergeRules(noUnusedVars, {
             varsIgnorePattern: '_',
         }),
